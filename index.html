@@ -1,15 +1,15 @@
 <!doctype html>
 <html lang="en">
 <head>
-	<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-31GTGZ1Y7T"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-31GTGZ1Y7T"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-31GTGZ1Y7T');
+  </script>
 
-  gtag('config', 'G-31GTGZ1Y7T');
-</script>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
 
@@ -17,7 +17,7 @@
 
   <!-- Primary SEO Meta Tags -->
   <meta name="title" content="Play OpenRCT2 Online - Free Browser Version (No Download)" />
-  <meta name="description" content="Play OpenRCT2 instantly in your browser. No installation or downloads needed. Import and export your save files, enjoy classic RollerCoaster Tycoon 2 gameplay, and build your dream park anywhere!" />
+  <meta name="description" content="Play OpenRCT2 instantly in your browser. No installation or downloads needed. Import/export your save files and build the ultimate theme park anywhere!" />
   <meta name="keywords" content="OpenRCT2 online, play OpenRCT2 in browser, OpenRCT2 web version, RollerCoaster Tycoon 2 online, OpenRCT2 no download, play OpenRCT2 free, open source theme park game, OpenRCT2 HTML5, browser RCT2, play OpenRCT2 now" />
   <meta name="author" content="OpenRCT2 Online" />
   <meta name="robots" content="index, follow" />
@@ -26,7 +26,7 @@
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://openrct2online.com/" />
   <meta property="og:title" content="Play OpenRCT2 Online – Free Browser Version (No Download)" />
-  <meta property="og:description" content="Play OpenRCT2 instantly in your browser! Import saves and experience the full RollerCoaster Tycoon 2-style theme park game without installing anything." />
+  <meta property="og:description" content="Play OpenRCT2 instantly in your browser! Import saves and build your dream theme park without installing anything." />
   <meta property="og:image" content="https://openrct2online.com/thumbnail.jpg" />
   <meta property="og:site_name" content="OpenRCT2 Online" />
 
@@ -50,35 +50,62 @@
 
   <style>
     :root{
-      --bg:#0e1117; --card:#171a22; --text:#e6edf3; --muted:#97a3b6;
-      --accent:#f59e0b; --accent-2:#22c55e; --maxw:1100px; --radius:14px;
-      --shadow:0 10px 30px rgba(0,0,0,.35); --space:24px;
+      /* OpenRCT2-ish vibe: deep blue + park green + gold accents */
+      --bg:#071827;
+      --card:#0b2236;
+      --text:#e6f2ff;
+      --muted:#9bb4c9;
+
+      --accent:#22c55e;    /* park green */
+      --accent-2:#f59e0b;  /* gold */
+      --maxw:1100px;
+      --radius:14px;
+      --shadow:0 10px 30px rgba(0,0,0,.38);
+      --space:24px;
     }
     *{box-sizing:border-box}
-    html,body{margin:0;padding:0;background:var(--bg);color:var(--text);
+    html,body{
+      margin:0;padding:0;background:var(--bg);color:var(--text);
       font-family:system-ui,-apple-system,Segoe UI,Roboto,Inter,Arial,sans-serif;
-      -webkit-text-size-adjust:100%}
+      -webkit-text-size-adjust:100%
+    }
     a{color:inherit;text-decoration:none}
     img{max-width:100%;height:auto}
 
     .container{width:100%;max-width:var(--maxw);margin:0 auto;padding:var(--space)}
-    header{position:sticky;top:0;backdrop-filter:saturate(140%) blur(6px);
-      background:rgba(14,17,23,.78);border-bottom:1px solid #232838;z-index:10}
+    header{
+      position:sticky;top:0;backdrop-filter:saturate(140%) blur(6px);
+      background:rgba(7,24,39,.78);
+      border-bottom:1px solid #12324e;
+      z-index:10
+    }
     .nav{display:flex;align-items:center;gap:18px;padding:10px 0}
     .brand{display:flex;align-items:center;gap:10px;font-weight:700}
-    .pill{padding:8px 12px;border:1px solid #2a3145;border-radius:999px;color:var(--muted);font-size:12px;line-height:1}
+    .pill{
+      padding:8px 12px;border:1px solid #18415f;border-radius:999px;
+      color:var(--muted);font-size:12px;line-height:1
+    }
     .btn-row{margin-left:auto;display:flex;gap:10px;flex-wrap:wrap}
-    .cta{display:inline-flex;align-items:center;justify-content:center;text-align:center;
-      background:linear-gradient(180deg,var(--accent),#dd8a05);color:#111;
-      padding:14px 22px;font-weight:700;border-radius:12px;box-shadow:var(--shadow);border:0;cursor:pointer;min-height:44px}
+
+    .cta{
+      display:inline-flex;align-items:center;justify-content:center;text-align:center;
+      background:linear-gradient(180deg,var(--accent),#179a46);
+      color:#071827;
+      padding:14px 22px;font-weight:800;border-radius:12px;
+      box-shadow:var(--shadow);border:0;cursor:pointer;min-height:44px
+    }
     .cta:hover{transform:translateY(-1px)}
-    .cta.secondary{background:#22293a;color:var(--text);border:1px solid #2a3145}
+    .cta.secondary{
+      background:#0f2b43;
+      color:var(--text);
+      border:1px solid #18415f
+    }
 
     .hero{display:grid;grid-template-columns:1.2fr 1fr;gap:28px;align-items:center;padding:42px 0 10px}
     .hero h1{font-size:clamp(26px,5vw,44px);line-height:1.15;margin:0 0 10px}
     .hero p{color:var(--muted);font-size:clamp(14px,2.4vw,18px);margin:0 0 18px}
 
-    .shot{border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden;background:#0b0e14;border:1px solid #232838}
+    .shot{border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden;background:#04111c;border:1px solid #12324e}
     .badges{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
     section{padding:36px 0}
 
@@ -88,12 +115,16 @@
       gap:18px;
     }
     @media (max-width:980px){
-      .cards{
-        grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
-      }
+      .cards{grid-template-columns:repeat(auto-fit,minmax(240px,1fr));}
     }
 
-    .card{background:var(--card);border:1px solid #232838;border-radius:var(--radius);padding:18px;box-shadow:var(--shadow)}
+    .card{
+      background:var(--card);
+      border:1px solid #12324e;
+      border-radius:var(--radius);
+      padding:18px;
+      box-shadow:var(--shadow)
+    }
     .card h3{margin:6px 0 8px;font-size:18px}
     .card p{margin:0;color:var(--muted)}
 
@@ -106,18 +137,18 @@
     }
     .card:hover{
       transform: translateY(-4px);
-      box-shadow: 0 14px 38px rgba(0,0,0,.45);
-      border-color: #2f3650;
-      background-color: #1a1e28;
+      box-shadow: 0 14px 38px rgba(0,0,0,.48);
+      border-color: #1f547a;
+      background-color: #0d2740;
     }
     @media (prefers-reduced-motion: reduce){
       .card{transition:none}
       .card:hover{transform:none}
     }
 
-    .updates article{background:var(--card);border:1px solid #232838;border-radius:var(--radius);padding:18px;margin-bottom:14px}
+    .updates article{background:var(--card);border:1px solid #12324e;border-radius:var(--radius);padding:18px;margin-bottom:14px}
     .updates time{color:var(--muted);font-size:13px}
-    footer{padding:28px 0 60px;color:var(--muted);border-top:1px solid #232838}
+    footer{padding:28px 0 60px;color:var(--muted);border-top:1px solid #12324e}
     .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:20px}
 
     .tutorial .lead{color:var(--muted);max-width:78ch}
@@ -128,22 +159,13 @@
       :root{--space:18px}
       .pill{display:none}
       .cta{width:100%}
-      .cta {
-        padding:10px 16px;
-        font-size:14px;
-        border-radius:10px;
-        min-height:38px;
-      }
+      .cta{padding:10px 16px;font-size:14px;border-radius:10px;min-height:38px}
       .hero{grid-template-columns:1fr}
       .grid-2{grid-template-columns:1fr}
     }
 
     /* Center the entire tutorial container and make it a bit wider */
-    #tutorial {
-      margin-left: auto;
-      margin-right: auto;
-      max-width: 980px;
-    }
+    #tutorial { margin-left:auto; margin-right:auto; max-width:980px; }
 
     /* Tutorial cards: single 3×2 grid */
     #tutorial .cards {
@@ -151,36 +173,29 @@
       gap: 24px;
       align-items: stretch;
     }
-    @media (max-width:980px){
-      #tutorial .cards { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-    }
-    @media (max-width:620px){
-      #tutorial .cards { grid-template-columns: 1fr; }
-    }
+    @media (max-width:980px){ #tutorial .cards { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+    @media (max-width:620px){ #tutorial .cards { grid-template-columns: 1fr; } }
 
     /* Optional: focus glow for review inputs */
     #reviews input:focus,
     #reviews select:focus,
     #reviews textarea:focus{
-      border-color:#2f3650;
-      box-shadow:0 0 0 3px rgba(245,158,11,.15);
+      border-color:#1f547a;
+      box-shadow:0 0 0 3px rgba(34,197,94,.18);
     }
 
     /* Reviews pagination */
     #reviewPager .pagebtn{
       padding:8px 12px;
-      border:1px solid #2a3145;
+      border:1px solid #18415f;
       border-radius:999px;
-      background:#22293a;
+      background:#0f2b43;
       color:var(--text);
       cursor:pointer;
       font-size:12px;
       line-height:1;
     }
-    #reviewPager .pagebtn:disabled{
-      opacity:.5;
-      cursor:not-allowed;
-    }
+    #reviewPager .pagebtn:disabled{ opacity:.5; cursor:not-allowed; }
   </style>
 
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9145511719373088"
@@ -206,20 +221,20 @@
     <!-- HERO -->
     <section class="hero">
       <div>
-        <h1>Play OpenRCT2 instantly in your browser - no download required</h1>
-        <p>OpenRCT2 Online lets you jump right into classic theme park building. Import/export your save files and build your dream park from any device.</p>
+        <h1>Play OpenRCT2 instantly in your browser — no download required</h1>
+        <p>OpenRCT2 Online lets you jump into classic RollerCoaster Tycoon 2-style theme park building. Import/export your save files and manage your park from any device.</p>
 
         <div class="btn-row" style="margin:10px 0 4px;">
           <a class="cta" href="/play" target="_blank" rel="noopener">Launch OpenRCT2 Online</a>
           <a class="cta secondary" href="#features">Learn More</a>
-          <a class="cta secondary" href="https://openrct2online.com/donate" target="_blank" rel="noopener">Support OpenRCT2 Online</a>
+          <a class="cta secondary" href="/donate" target="_blank" rel="noopener">Support OpenRCT2 Online</a>
         </div>
 
         <div class="badges">
           <span class="pill">Save Import/Export</span>
+          <span class="pill">Scenarios & Sandboxes</span>
           <span class="pill">No Install</span>
           <span class="pill">Free & Open Source</span>
-          <span class="pill">Theme Park Builder</span>
         </div>
       </div>
 
@@ -234,7 +249,7 @@
       <div class="cards">
         <div class="card"><h3>Instant Play</h3><p>Start a new park or load a scenario in seconds. No installers needed.</p></div>
         <div class="card"><h3>Import & Export Saves</h3><p>Bring your parks from desktop to browser and back anytime.</p></div>
-        <div class="card"><h3>Classic Gameplay</h3><p>Build coasters, manage staff, and keep guests happy—right in your browser.</p></div>
+        <div class="card"><h3>Scenarios & Sandbox</h3><p>Play classic scenarios or build freely in sandbox-style parks.</p></div>
         <div class="card"><h3>Lightweight & Free</h3><p>Runs smoothly on modern browsers. Built for convenience and fun.</p></div>
       </div>
     </section>
@@ -243,8 +258,8 @@
     <section>
       <h2>Screenshots</h2>
       <div class="grid-2">
-        <figure class="shot"><img src="/images/screenshot-1.webp" alt="Theme park overview"></figure>
-        <figure class="shot"><img src="/images/screenshot-2.webp" alt="Roller coaster and guests"></figure>
+        <figure class="shot"><img src="/images/screenshot-1.webp" alt="Theme park rides and paths"></figure>
+        <figure class="shot"><img src="/images/screenshot-2.webp" alt="Roller coaster in action"></figure>
       </div>
     </section>
 
@@ -256,10 +271,10 @@
         <div class="card"><h3>Open Source Credits</h3><p>OpenRCT2 is an open-source re-implementation/extension of RollerCoaster Tycoon 2. All trademarks are property of their respective owners.</p></div>
         <div class="card"><h3>Feedback & Support</h3><p>Ideas, bug reports, and performance notes are welcome. Reach out via the links in the footer or email overgrown3d@gmail.com</p></div>
         <div class="card">
-          <h3>iOS OpenRCT2 Online Port</h3>
-          <p>Try the iOS build of OpenRCT2 Online via our public test page.</p>
+          <h3>Mobile / iOS Test Build</h3>
+          <p>Try experimental mobile builds via our public test page (when available).</p>
           <div class="btn-row" style="margin-top:12px; margin-left:0;">
-            <a class="cta" href="https://ios.openrct2online.com/" target="_blank" rel="noopener">Open iOS Test</a>
+            <a class="cta" href="/ios" target="_blank" rel="noopener">Open iOS Test</a>
           </div>
         </div>
       </div>
@@ -269,70 +284,70 @@
     <section id="tutorial" class="tutorial">
       <h2>Getting Started: OpenRCT2 Online Tutorial</h2>
       <p class="lead">
-        New to OpenRCT2? This walkthrough helps get you from an empty park to your first profitable
-        rides. For deeper learning, visit the 
-        <i><a href="https://openrct2.io/" target="_blank" rel="noopener">OpenRCT2 site</a></i>.
+        New to OpenRCT2? This walkthrough gets you from an empty park to your first profitable rides.
+        For deeper learning, visit the
+        <i><a href="https://openrct2.org/" target="_blank" rel="noopener">OpenRCT2 site</a></i>.
       </p>
 
       <div class="cards" style="margin-top:16px;">
         <div class="card">
-          <h3>1) Start a Scenario & Pause</h3>
+          <h3>1) Start a Park & Pause</h3>
           <ul class="steps">
-            <li>Pick a beginner-friendly scenario and <strong>pause</strong> immediately.</li>
-            <li>Scan the map for paths, guest flow, and room to expand.</li>
-            <li>Use the overview map to plan your first “hub” area.</li>
+            <li>Begin with <strong>New Game</strong> (scenario) or <strong>Sandbox</strong>.</li>
+            <li>Pause time while planning paths, entrances, and ride placement.</li>
+            <li>Use the camera controls to scout flat land and key areas.</li>
           </ul>
         </div>
 
         <div class="card">
-          <h3>2) First Guests: Paths & Essentials</h3>
+          <h3>2) Lay Down Paths & Essentials</h3>
           <ul class="steps">
-            <li>Lay down <strong>paths</strong> from the park entrance into a central hub.</li>
-            <li>Place basics early: <strong>Restrooms</strong>, <strong>Food/Drink</strong>, and <strong>Benches/Bins</strong>.</li>
-            <li>Hire at least one <strong>Handyman</strong> to keep the park clean.</li>
+            <li>Build <strong>paths</strong> from the park entrance toward your first ride area.</li>
+            <li>Add <strong>benches</strong> and <strong>bins</strong> early to keep guests happy.</li>
+            <li>Place <strong>bathrooms</strong> and a few <strong>lamps</strong> near busy routes.</li>
           </ul>
         </div>
 
         <div class="card">
-          <h3>3) Your First Ride</h3>
+          <h3>3) First Ride: Simple Profit</h3>
           <ul class="steps">
-            <li>Start with a gentle ride (e.g., carousel, mini coaster, or transport ride).</li>
-            <li>Make sure the ride has an <strong>entrance</strong> and <strong>exit</strong> connected to paths.</li>
-            <li>Open the ride and set a reasonable <strong>ticket price</strong>.</li>
-            <li>Add a few lights/scenery nearby to boost park rating.</li>
+            <li>Place a gentle ride (carousel / ferris wheel) near the entrance.</li>
+            <li>Build the queue + exit and connect them with paths.</li>
+            <li>Set a reasonable ticket price and open the ride.</li>
+            <li>Watch guest thoughts to tune price and capacity.</li>
           </ul>
         </div>
 
         <div class="card">
-          <h3>4) Profits & Park Rating</h3>
+          <h3>4) Staff & Cleanliness</h3>
           <ul class="steps">
-            <li>Adjust prices based on guest thoughts (“too expensive” / “good value”).</li>
-            <li>Keep paths clean—trash tanks your rating fast.</li>
-            <li>Add more rides with variety: thrill + gentle + transport.</li>
-            <li>Build scenery around key rides for higher excitement and reputation.</li>
+            <li>Hire <strong>handymen</strong> and set patrol areas around paths.</li>
+            <li>Add a <strong>mechanic</strong> for inspections and breakdown fixes.</li>
+            <li>Use patrol zones to keep high-traffic areas consistently clean.</li>
           </ul>
         </div>
 
         <div class="card">
-          <h3>5) Saves & Sharing Parks</h3>
+          <h3>5) Expand Smart</h3>
           <ul class="steps">
-            <li>Save progress any time; browser version supports import/export.</li>
-            <li>Keep milestone saves (e.g., “Year 1 stable”, “Coaster expansion”).</li>
+            <li>Add a food/drink stall near rides to increase spending.</li>
+            <li>Build a small coaster once income is steady.</li>
+            <li>Keep queues shaded/short and avoid path bottlenecks.</li>
           </ul>
           <p style="margin-top:10px;color:var(--muted);">
-            Tip: Save before big coaster builds so you can iterate quickly.
+            Tip: Guest flow matters—wide paths near hubs pay off.
           </p>
         </div>
 
         <div class="card">
-          <h3>6) Learn More</h3>
-          <p>Once you’ve mastered basics, try advanced coaster design, micro-management, and scenario goals.</p>
+          <h3>6) Saves & Sharing</h3>
+          <p>Save any time; the browser version supports import/export so you can continue on desktop.</p>
           <ul class="steps">
-            <li>Browse tips and docs on the <a href="https://openrct2.io/" target="_blank" rel="noopener">OpenRCT2 website</a>.</li>
-            <li>Experiment with different ride types and guest path layouts.</li>
+            <li>Keep a “milestone” save before major expansions.</li>
+            <li>Experiment with scenery themes once your finances are stable.</li>
           </ul>
           <div class="btn-row" style="margin-top:10px;">
-            <a class="cta" href="https://openrct2.io/" target="_blank" rel="noopener">Visit OpenRCT2</a>
+            <a class="cta" href="https://openrct2.org/" target="_blank" rel="noopener">Learn More About OpenRCT2</a>
           </div>
         </div>
       </div>
@@ -342,7 +357,7 @@
     <section id="reviews">
       <h2>Player Reviews</h2>
       <p class="lead" style="color:var(--muted); max-width:78ch;">
-        Leave a quick rating and note - new reviews show up after approval.
+        Leave a quick rating and note — new reviews show up after approval.
       </p>
 
       <div id="reviewSummary" class="badges" style="margin-top:12px;"></div>
@@ -357,13 +372,13 @@
               placeholder="Name"
               maxlength="40"
               required
-              style="padding:10px 12px; border-radius:12px; border:1px solid #2a3145; background:#0b0e14; color:var(--text); outline:none;"
+              style="padding:10px 12px; border-radius:12px; border:1px solid #18415f; background:#04111c; color:var(--text); outline:none;"
             />
 
             <select
               name="rating"
               required
-              style="padding:10px 12px; border-radius:12px; border:1px solid #2a3145; background:#0b0e14; color:var(--text); outline:none;"
+              style="padding:10px 12px; border-radius:12px; border:1px solid #18415f; background:#04111c; color:var(--text); outline:none;"
             >
               <option value="">Rating</option>
               <option value="5">5 - Amazing</option>
@@ -378,7 +393,7 @@
               placeholder="What did you like (or not like)?"
               maxlength="800"
               required
-              style="padding:10px 12px; border-radius:12px; border:1px solid #2a3145; background:#0b0e14; color:var(--text); outline:none; min-height:120px; resize:vertical;"
+              style="padding:10px 12px; border-radius:12px; border:1px solid #18415f; background:#04111c; color:var(--text); outline:none; min-height:120px; resize:vertical;"
             ></textarea>
 
             <div class="btn-row" style="margin-left:0;">
@@ -479,12 +494,11 @@
           <div class="card">
             <div style="display:flex; align-items:center; justify-content:space-between; gap:12px;">
               <h3 style="margin:0;">${escapeHtml(r.name)}</h3>
-              <span style="color:var(--accent); font-size:14px;">
+              <span style="color:var(--accent-2); font-size:14px;">
                 ${starEmoji(r.rating)}
               </span>
             </div>
 
-            <!-- Fix indent issue: keep pre-wrap but remove template indentation + trim() -->
             <p style="margin:10px 0 0; color:var(--text); white-space:pre-wrap;">${escapeHtml((r.text ?? "").trim())}</p>
 
             <p style="margin:10px 0 0; color:var(--muted); font-size:13px;">
@@ -520,9 +534,7 @@
           return;
         }
 
-        const reviews = data.reviews || [];
-        allReviews = reviews;
-
+        allReviews = data.reviews || [];
         renderSummary(allReviews);
         renderPage(1);
       }
@@ -563,8 +575,8 @@
     <!-- CTA -->
     <section style="text-align:center;">
       <a class="cta" href="/play" target="_blank" rel="noopener">Launch OpenRCT2 Online</a>
-	  <a class="cta secondary" href="https://openrct2online.com/donate" target="_blank" rel="noopener">Support OpenRCT2 Online</a>
-		<a class="cta secondary" href="https://openrct2online.com/updates" target="_blank" rel="noopener">Updates</a>
+      <a class="cta secondary" href="/donate" target="_blank" rel="noopener">Support OpenRCT2 Online</a>
+      <a class="cta secondary" href="/updates" target="_blank" rel="noopener">Updates</a>
       <p style="color:var(--muted); margin-top:10px;">Works in modern browsers. Saves kept locally.</p>
     </section>
   </main>
@@ -579,11 +591,9 @@
         <span>•</span>
         <a href="/contact" target="_blank" rel="noopener">Contact</a>
         <span>•</span>
-        <a href="https://embed.openrct2online.com/" target="_blank" rel="noopener">Embed OpenRCT2 Online</a>
+        <a href="/embed" target="_blank" rel="noopener">Embed OpenRCT2 Online</a>
         <span>•</span>
-        <a href="https://github.com/swords02/openrct2-online" target="_blank" rel="noopener">View Source</a>
-        <span>•</span>
-        <a href="https://testflight.apple.com/join/sMZ7a4bm" target="_blank" rel="noopener">iOS OpenRCT2 Demo</a>
+        <a href="https://github.com/OpenRCT2/OpenRCT2" target="_blank" rel="noopener">OpenRCT2 on GitHub</a>
       </div>
     </div>
   </footer>

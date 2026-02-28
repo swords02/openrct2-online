@@ -1,267 +1,82 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width,initial-scale=1" />
     <title>Upload Files</title>
-
-    <style>
-      :root {
-        --bg: #0b1020;
-        --panel: rgba(15, 22, 44, 0.82);
-        --panel2: rgba(15, 22, 44, 0.65);
-        --text: rgba(255, 255, 255, 0.92);
-        --muted: rgba(255, 255, 255, 0.7);
-        --border: rgba(255, 255, 255, 0.12);
-        --shadow: 0 18px 60px rgba(0, 0, 0, 0.55);
-        --radius: 18px;
-      }
-
-      html,
-      body {
-        height: 100%;
-      }
-      body {
-        margin: 0;
-        padding: 0;
-        background: radial-gradient(1200px 800px at 20% 10%, #1b2a5a 0%, transparent 60%),
-          radial-gradient(900px 700px at 90% 20%, #2a1a5a 0%, transparent 55%),
-          radial-gradient(900px 900px at 50% 100%, #0a1b2b 0%, transparent 55%),
-          var(--bg);
-        color: var(--text);
-        font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial,
-          "Apple Color Emoji", "Segoe UI Emoji";
-        overflow: hidden;
-      }
-
-      /* Canvas: fill the viewport crisply */
-      #screen {
-        position: fixed;
-        inset: 0;
-        width: 100vw;
-        height: 100vh;
-        display: block;
-        image-rendering: pixelated; /* good for RCT2 style visuals */
-        background: transparent;
-      }
-
-      /* Overlay centered panel */
-      #overlay {
-        position: fixed;
-        inset: 0;
-        display: grid;
-        place-items: center;
-        padding: 24px;
-        pointer-events: auto;
-      }
-
-      .panel {
-        width: min(520px, 92vw);
-        background: var(--panel);
-        border: 1px solid var(--border);
-        border-radius: var(--radius);
-        box-shadow: var(--shadow);
-        backdrop-filter: blur(10px);
-        -webkit-backdrop-filter: blur(10px);
-        padding: 22px 20px 18px;
-      }
-
-      .title {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        margin: 0 0 10px;
-        font-size: 18px;
-        letter-spacing: 0.2px;
-      }
-
-      .subtitle {
-        margin: 0 0 14px;
-        color: var(--muted);
-        font-size: 14px;
-        line-height: 1.35;
-      }
-
-      .row {
-        display: grid;
-        gap: 10px;
-      }
-
-      .progress {
-        display: grid;
-        gap: 8px;
-        margin: 14px 0 10px;
-      }
-
-      .progressbar {
-        height: 10px;
-        background: var(--panel2);
-        border: 1px solid var(--border);
-        border-radius: 999px;
-        overflow: hidden;
-      }
-
-      .progressbar > div {
-        height: 100%;
-        width: 0%;
-        background: linear-gradient(90deg, rgba(100, 180, 255, 0.9), rgba(190, 120, 255, 0.9));
-        border-radius: 999px;
-        transition: width 120ms linear;
-      }
-
-      #overlay-text {
-        font-variant-numeric: tabular-nums;
-        color: var(--text);
-        font-size: 14px;
-        min-height: 20px;
-      }
-
-      label {
-        display: block;
-        font-size: 13px;
-        color: var(--muted);
-        margin-top: 10px;
-      }
-
-      input[type="file"],
-      button#data-folder {
-        width: 100%;
-        border-radius: 14px;
-        border: 1px solid var(--border);
-        background: rgba(255, 255, 255, 0.06);
-        color: var(--text);
-        padding: 12px 12px;
-        font-size: 14px;
-        outline: none;
-        box-sizing: border-box;
-      }
-
-      button#data-folder {
-        cursor: pointer;
-        background: linear-gradient(180deg, rgba(120, 170, 255, 0.18), rgba(255, 255, 255, 0.06));
-      }
-      button#data-folder:hover {
-        background: linear-gradient(180deg, rgba(120, 170, 255, 0.26), rgba(255, 255, 255, 0.07));
-      }
-      button#data-folder:active {
-        transform: translateY(1px);
-      }
-
-      .hint {
-        margin-top: 10px;
-        font-size: 12px;
-        color: rgba(255, 255, 255, 0.62);
-        line-height: 1.35;
-      }
-
-      .error {
-        color: rgba(255, 160, 160, 0.95);
-      }
-
-      /* Reduce motion if user prefers */
-      @media (prefers-reduced-motion: reduce) {
-        .progressbar > div {
-          transition: none;
-        }
-      }
-    </style>
   </head>
 
   <body>
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+      }
+
+      #screen,
+      #overlay {
+        position: fixed;
+        left: 0;
+        right: 0;
+        width: 100%;
+        height: 100%;
+      }
+
+      #overlay {
+        padding-top: 10%;
+        text-align: center;
+      }
+    </style>
     <canvas id="screen" width="1600" height="1200"></canvas>
-
     <div id="overlay">
-      <div class="panel">
-        <h1 class="title">OpenRCT2 Web</h1>
-        <p class="subtitle">
-          Select your <strong>RollerCoaster Tycoon 2</strong> install folder so the game can find
-          <code>Data/ch.dat</code>.
-        </p>
-
-        <div class="progress" aria-live="polite">
-          <div class="progressbar" aria-hidden="true"><div id="progress-fill"></div></div>
-          <div id="overlay-text"></div>
-        </div>
-
-        <div class="row">
-          <label for="data-folder">Select your RCT2 data path</label>
-          <input id="data-folder" type="file" webkitdirectory="1" />
-          <div class="hint">
-            Tip: choose the folder that contains <strong>Data</strong> (and inside it,
-            <strong>ch.dat</strong>).
-          </div>
-        </div>
-      </div>
+      <div id="overlay-text"></div>
+      <label for="data-folder">Select your RCT2 data path</label>
+      <input id="data-folder" type="file" webkitdirectory="1"/>
     </div>
-
     <script>
       var assets = {};
 
-      // ---- Small UI helper: throttle overlay updates to avoid jank ----
-      const overlayTextEl = () => document.getElementById("overlay-text");
-      const progressFillEl = () => document.getElementById("progress-fill");
-
-      let lastUiUpdate = 0;
-      function setProgress(pct, text) {
-        const now = performance.now();
-        if (now - lastUiUpdate < 50 && pct < 100) return; // ~20fps UI updates max
-        lastUiUpdate = now;
-        if (typeof pct === "number") {
-          progressFillEl().style.width = Math.max(0, Math.min(100, pct)) + "%";
-        }
-        if (text != null) overlayTextEl().textContent = text;
-      }
-
-      // ---- Ensure canvas scales to device and stays crisp ----
-      const canvas = document.getElementById("screen");
-      function resizeCanvasToDisplaySize() {
-        const dpr = Math.max(1, Math.min(2, window.devicePixelRatio || 1));
-        const rect = canvas.getBoundingClientRect();
-        const w = Math.round(rect.width * dpr);
-        const h = Math.round(rect.height * dpr);
-        if (canvas.width !== w || canvas.height !== h) {
-          canvas.width = w;
-          canvas.height = h;
-        }
-      }
-      window.addEventListener("resize", () => {
-        // Avoid resize thrash
-        requestAnimationFrame(resizeCanvasToDisplaySize);
-      });
-      requestAnimationFrame(resizeCanvasToDisplaySize);
-
       var Module = {
-        canvas: canvas,
+        // TOTAL_MEMORY: 1024 * 1024 * 64,
+        canvas: document.getElementById("screen"),
         arguments: [
           "--openrct2-data-path=persistent/rct2-data-path",
           "--user-data-path=persistent/user-data-path",
+          // "--verbose",
         ],
         preRun: () => {
-          addRunDependency("syncfs");
+          // FS: https://kripken.github.io/emscripten-site/docs/api_reference/Filesystem-API.html#id2
+          addRunDependency('syncfs')
           FS.init(() => null);
           FS.mkdirTree("/persistent");
           FS.mount(IDBFS, {}, "/persistent");
           FS.syncfs(true, (err) => {
             FS.mkdirTree("/persistent/user-data-path");
             FS.mkdirTree("/persistent/rct2-data-path");
-
             for (const assetKey of Object.keys(assets)) {
+              // create folders
               var assetPath = assetKey;
-              if (assetPath.startsWith(".")) assetPath = assetKey.substring(1);
+              if (assetPath.startsWith(".")) {
+                assetPath = assetKey.substring(1);
+              }
               assetPath = "/persistent" + assetPath;
-
               const folder = assetPath.slice(0, assetPath.lastIndexOf("/"));
               try {
                 FS.mkdirTree(folder);
               } catch (e) {}
-
+  
+              // write file
               var stream = FS.open(assetPath, "w+");
-              FS.write(stream, assets[assetKey], 0, assets[assetKey].byteLength, 0);
+              FS.write(
+                stream,
+                assets[assetKey],
+                0,
+                assets[assetKey].byteLength,
+                0
+              );
               FS.close(stream);
-
+  
               delete assets[assetKey];
             }
-
             if (typeof localStorage != "undefined") {
               FS.syncfs(false, (err) => {
                 if (!err) {
@@ -277,14 +92,15 @@
           });
         },
         onRuntimeInitialized: function () {
+          // I give up.
           FS.ignorePermissions = true;
-
           window.onerror = (evt, src, line, error) => {
             if (typeof error === "number") {
+              // Wait a tick until the runtime is done panicking
               setTimeout(() => {
                 try {
                   console.error(Module.getExceptionMessage(error));
-                } catch (err) {
+                } catch(err) {
                   console.error(error, "(Failed to get error message D:)", err);
                 }
               });
@@ -292,14 +108,8 @@
               console.error(error);
             }
           };
-
           console.log("getExceptionMessage:", Module.getExceptionMessage);
-          Module.websocket.url =
-            (location.protocol == "http:" ? "ws:" : "wss:") +
-            "//" +
-            location.host +
-            location.pathname +
-            "websockify";
+          Module.websocket.url = (location.protocol == "http:" ? "ws:" : "wss:") + "//" + location.host + location.pathname + "websockify";
           Module.websocket.subprotocol = "binary";
         },
       };
@@ -309,17 +119,14 @@
 
       function launch() {
         Module.canvas.oncontextmenu = () => false;
-
-        // Ensure final resize before starting
-        resizeCanvasToDisplaySize();
-
         var script = document.createElement("script");
         script.src = "openrct2.js";
         document.body.appendChild(script);
 
         var prevQuery = document.querySelector;
         document.querySelector = function (selector) {
-          if (selector == "#canvas") return window.top.document.getElementById("screen");
+          if (selector == "#canvas")
+            return window.top.document.getElementById("screen");
           else return prevQuery(selector);
         };
       }
@@ -329,13 +136,16 @@
           var oReq = new XMLHttpRequest();
           oReq.open("GET", path, true);
           oReq.responseType = "arraybuffer";
-          oReq.onload = () => {
-            var arrayBuffer = oReq.response;
+          //console.log("TX", path);
+          oReq.onload = (oEvent) => {
+            //console.log("RX", path);
+            var arrayBuffer = oReq.response; // Note: not oReq.responseText
             if (arrayBuffer) {
               assets[path] = new Uint8Array(arrayBuffer);
               assetsReceived++;
-              const pct = assetsTotal ? ((100 * assetsReceived) / assetsTotal) | 0 : 0;
-              setProgress(pct, pct + "%");
+              document.getElementById("overlay-text").textContent = `${
+                ((100 * assetsReceived) / assetsTotal) | 0
+              }%`;
             } else {
               console.error("load failed", path);
             }
@@ -351,7 +161,10 @@
             const file = await handle.getFile();
             assets["/" + parts.join("/") + "/" + name] = new Uint8Array(await file.arrayBuffer());
           } else if (handle.kind == "directory") {
-            await ingestDirectory(parts.concat([name]), handle);
+            await ingestDirectory(
+              parts.concat([name]),
+              handle
+            );
           }
         }
       }
@@ -359,105 +172,78 @@
       function customDirectoryPicker() {
         const button = document.getElementById("data-folder");
         if (button.tagName == "BUTTON") {
-          return new Promise((resolve) => {
-            button.addEventListener(
-              "click",
-              () => {
-                resolve();
-              },
-              { once: true }
-            );
-          }).then(() => showDirectoryPicker());
+          return (new Promise((resolve, reject) => {
+            button.addEventListener("click", () => {
+              resolve();
+            }, {once: true});
+          })).then(() => showDirectoryPicker());
         } else {
-          button.value = "";
-          return new Promise((resolve) => {
-            button.addEventListener(
-              "change",
-              (ev) => {
-                resolve(ev.target.files);
-              },
-              { once: true }
-            );
+          button.value = '';
+          return new Promise((resolve, reject) => {
+            button.addEventListener("change", (ev) => {
+              resolve(ev.target.files);
+            }, {once: true});
           });
         }
       }
 
       async function doAllLoads() {
-        setProgress(0, "Preparing…");
-
         if (window.showDirectoryPicker) {
           document.getElementById("data-folder").remove();
           const ackButton = document.createElement("button");
           ackButton.id = "data-folder";
-          ackButton.textContent = "Pick your RCT2 Data directory";
-          document.querySelector(".row").insertBefore(ackButton, document.querySelector(".hint"));
+          ackButton.textContent = "Pick your RCT2 Data directory"
+          document.getElementById("overlay").appendChild(ackButton);
         }
-
         let prom = customDirectoryPicker();
-
         if (localStorage["rct2-data-version"] != 1) {
           const loads = await fetch("output.json")
             .then((response) => response.json())
             .then((json) => {
               return Object.keys(json).flatMap((root) =>
-                Object.keys(json[root]).map((idx) => () => load(root + "/" + json[root][idx]))
+                Object.keys(json[root]).map(
+                  (idx) => () => load(root + "/" + json[root][idx])
+                )
               );
             });
-
           assetsTotal = loads.length;
-          setProgress(0, "Downloading assets…");
-
-          // Same logic, but yield between big batches so UI stays responsive.
+        
           while (loads.length) {
             await Promise.all(loads.splice(0, 1000).map((f) => f()));
-            await new Promise((r) => requestAnimationFrame(r));
           }
         }
 
-        const overlayText = overlayTextEl();
-
+        const overlayText = document.getElementById("overlay-text");
         if (localStorage["rct2-data-checked"] != 1) {
           while (1) {
             try {
-              setProgress(100, "Waiting for folder selection…");
-
               const files = await prom;
               if (files instanceof FileSystemDirectoryHandle) {
-                // validate
-                await (await files.getDirectoryHandle("Data")).getFileHandle("ch.dat");
+                const file = await (await files.getDirectoryHandle("Data")).getFileHandle("ch.dat");
                 await ingestDirectory(["rct2-data-path", "app"], files);
               } else {
-                const filesArr = Array.from(files).map((file) => ({
-                  file,
-                  path: file.webkitRelativePath.slice(file.webkitRelativePath.indexOf("/") + 1),
-                }));
-                if (!filesArr.some((file) => file.path == "Data/ch.dat")) {
+                const filesArr = Array.from(files).map(file => ({file, path: file.webkitRelativePath.slice(file.webkitRelativePath.indexOf("/") + 1)}));
+                if (!filesArr.some(file => file.path == "Data/ch.dat")) {
                   throw new Error("No Data/ch.dat file");
                 }
-                for (const file of filesArr) {
-                  assets["/rct2-data-path/app/" + file.path] = new Uint8Array(
-                    await file.file.arrayBuffer()
-                  );
+                for(const file of filesArr) {
+                  assets["/rct2-data-path/app/" + file.path] = new Uint8Array(await file.file.arrayBuffer());
                 }
               }
               break;
-            } catch (err) {
+            } catch(err) {
               console.error(err);
-              overlayText.classList.add("error");
-              overlayText.textContent =
-                "Sorry, that didn't look right. The game folder should contain a folder named 'Data' which contains 'ch.dat'.";
+              overlayText.textContent = "Sorry, that didn't look right. The game folder should contain a folder named 'Data' which contains 'ch.dat'"
             }
             prom = customDirectoryPicker();
           }
-
-          overlayText.classList.remove("error");
-          overlayText.textContent = "Finalizing…";
           await load("./user-data-path/config.ini");
         }
 
         document.getElementById("overlay").style.display = "none";
         launch();
       }
+
 
       doAllLoads();
 
@@ -671,7 +457,9 @@
               label = 8;
             }
           }
-          if (!$128) break;
+          if (!$128) {
+            break;
+          }
           $$05472 = ($78 + $7) | 0;
           $$06271 = ($83 + ($12 << 2)) | 0;
           $128 = ($128 + -1) | 0;
